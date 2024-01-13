@@ -20,6 +20,7 @@ function turndown(content, options, article) {
   var turndownService = new TurndownService(options);
 
   turndownService.use(turndownPluginGfm.gfm)
+  turndownService.use(turndownPluginOrgmode.orgmode)
 
   turndownService.keep(['iframe', 'sub', 'sup', 'u', 'ins', 'del', 'small', 'big']);
 
@@ -178,28 +179,6 @@ function turndown(content, options, article) {
       '\n' + fence + '\n\n'
     )
   }
-
-  turndownService.addRule('fencedCodeBlock', {
-    filter: function (node, options) {
-      return (
-        options.codeBlockStyle === 'fenced' &&
-        node.nodeName === 'PRE' &&
-        node.firstChild &&
-        node.firstChild.nodeName === 'CODE'
-      );
-    },
-    replacement: function (content, node, options) {
-      return convertToFencedCodeBlock(node.firstChild, options);
-    }
-  });
-
-  // handle <pre> as code blocks
-  turndownService.addRule('pre', {
-    filter: (node, tdopts) => node.nodeName == 'PRE' && (!node.firstChild || node.firstChild.nodeName != 'CODE'),
-    replacement: (content, node, tdopts) => {
-      return convertToFencedCodeBlock(node, tdopts);
-    }
-  });
 
   let markdown = options.frontmatter + turndownService.turndown(content)
       + options.backmatter;

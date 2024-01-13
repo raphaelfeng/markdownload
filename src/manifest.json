@@ -37,6 +37,7 @@
       "background/moment.min.js",
       "background/turndown.js",
       "background/turndown-plugin-gfm.js",
+      "background/turndown-plugin-orgmode.js",
       "/background/Readability.js",
       "shared/context-menus.js",
       "shared/default-options.js",
